@@ -1,0 +1,28 @@
+Options +FollowSymLinks
+FileETag none
+<IfModule mod_rewrite.c>
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ index.php/$1 [QSA,PT,L]
+</IfModule>
+<IfModule mod_expires.c>
+ExpiresActive On
+ExpiresDefault A600
+ExpiresByType image/x-icon A2592000
+ExpiresByType application/javascript A2592000
+ExpiresByType application/x-javascript A2592000
+ExpiresByType text/css A604800
+ExpiresByType image/gif A2592000
+ExpiresByType image/png A2592000
+ExpiresByType image/jpeg A2592000
+ExpiresByType text/plain A86400
+ExpiresByType application/x-shockwave-flash A2592000
+ExpiresByType video/x-flv A2592000
+ExpiresByType application/pdf A2592000
+ExpiresByType text/html A600
+</IfModule> 
+<IfModule mod_deflate.c>
+SetOutputFilter DEFLATE
+AddOutputFilterByType DEFLATE text/html text/css  application/x-javascript
+</IfModule>
