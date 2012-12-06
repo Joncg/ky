@@ -19,7 +19,7 @@ class PublicAction extends CommonAction {
 	// 检查用户是否登录
 	public function checkUser() {
 		if (!isset($_SESSION[C('USER_AUTH_KEY')])) {
-			$this->assign('jumpUrl', U('Public/login'));
+			$this->assign('jumpUrl', U(C('USER_AUTH_GATEWAY')));
 			$this->error('没有登录');
 		}
 	}
@@ -138,6 +138,7 @@ class PublicAction extends CommonAction {
             Cookie::set('mac_id', trim($_POST['net_info']) != 'undefined' ? trim($_POST['net_info']) == '' ? 'undefined' : trim($_POST['net_info']) : 'undefined');
             Cookie::set('hd_id', trim($_POST['hd_info']) != 'undefined' ? trim($_POST['hd_info']) == '' ? 'undefined' : trim($_POST['hd_info']) : 'undefined');
 			$this->checkPc($authInfo['id']);
+
 			$_SESSION[C('USER_AUTH_KEY')] = $authInfo['id'];
 			$_SESSION['loginUser'] = $authInfo['account'];
 			$_SESSION['loginUserName'] = $authInfo['real_name'];
@@ -171,6 +172,7 @@ class PublicAction extends CommonAction {
 
 			// 缓存访问权限
 			RBAC::saveAccessList();
+			$this->assign("jumpUrl", U('Index/index'));
 			$this->success('登录成功！');
 		}
 	}

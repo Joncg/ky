@@ -219,20 +219,20 @@ class HelpAction extends CommonAction {
 		$this->getKeyword();
 		// 处理视频地址,如果填写了视频地址则不上传
 		if ($_POST['vedio'] || $_POST['uri']) {
-			$uri = $_POST['uri'];
-			if ($uri) {
-				if (!checkResource($uri)) {
-					$this->error('对不起,视频地址有误!');
+			$file = _upload();
+			if ($file) {
+				$_POST['vedio'] = $file[0]['file_path'];
+				if ($_POST['vedio']) {
+					$_POST['vedio'] = show_file_path($_POST['vedio']);
 				}
-				$_POST['vedio'] = $uri;
 			}
 			else {
-				$file = _upload();
-				if ($file) {
-					$_POST['vedio'] = $file[0]['file_path'];
-					if ($_POST['vedio']) {
-						$_POST['vedio'] = show_file_path($_POST['vedio']);
+				$uri = $_POST['uri'];
+				if ($uri) {
+					if (!checkResource($uri)) {
+						$this->error('对不起,视频地址有误!');
 					}
+					$_POST['vedio'] = $uri;
 				}
 			}
 			if (!$_POST['vedio']) {
