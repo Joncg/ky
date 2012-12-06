@@ -1,0 +1,24 @@
+{{include file="Public:main_header" /}}
+<div class="pad-10">
+	<script type="text/javascript">$(function(){if ($.browser.msie && parseInt($.browser.version) < 7) $('#browserVersionAlert').show();});</script>
+	<div class="explain-col mb10" id="browserVersionAlert" style="display: none;"></div>
+	<div class="col-2 lf mr10" style="width:48%">
+		<h6>系统信息</h6>
+		<div class="content">
+			{{iterate name="info" id="v"}}
+			{{$key}}：{{$v}} <br />
+			{{/iterate}}
+		</div>
+	</div>
+	<div class="col-2 lf col-auto" style="width:48%">
+		<h6>我的个人信息</h6>
+		<div class="content">
+			您好，{{$Think.session.loginUser}}({{$Think.session.loginUserName}})<br />
+			所属角色：{{$u.roles.0.name}} <br />
+			你是第：{{$Think.session.login_count}}次登陆<br />
+			上次登录时间：{{$Think.session.lastLoginTime|toDate}}<br />
+			上次登录IP：{{$Think.session.last_login_ip}} <br />
+		</div>
+	</div>
+</div>
+<include file="Public:main_footer" />

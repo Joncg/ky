@@ -1,0 +1,62 @@
+{{include file="Public:main_header" /}}
+<div class="pad-lr-10">
+	<form name="searchform" action='{{:U("$module_name/index")}}' method="GET" >
+		<input type="hidden" name="m" value="{{$module_name}}" />
+		<input type="hidden" name="a" value="{{$action_name}}" />
+		<input type="hidden" name="mid" value="{{$mid}}" />
+		<table width="100%" cellspacing="0" class="search-form">
+			<tbody>
+				<tr>
+					<td>
+						<div class="explain-col">
+							角色名：<input name="name" type="text" value="{{$name}}" class="input-text" />
+							<input type="submit" name="search" class="button" value="搜索" />
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+	<form name="myform" action='{{:U("$module_name/batch")}}' method="post" onsubmit="checkListFrom('ids[]','请选择你要操作的数据');return false;">
+		<div class="table-list">
+			<table width="100%" cellspacing="0">
+				<thead>
+					<tr>
+						<th  align="left" width="65"><label for="check_box"><input type="checkbox" value="" id="check_box" onclick="selectall('ids[]');">编号</label></th>
+						<th align="left">名称</th>
+						<th align="left">状态</th>
+						<th align="left">操作</th>
+					</tr>
+				</thead>
+				<tbody id="table_list_body">
+					{{foreach item="item" name="list"}}
+					<tr>
+						<td align="left" width="65"><label for="t_list_{{$item.id}}"><input id="t_list_{{$item.id}}" type="checkbox" value="{{$item.id}}" name="ids[]">{{$item.id}}</label></td>
+						<td align="left">{{$item.name}}</td>
+						<td align="left">{{$item.status|getStatus}}</td>
+						<td align="left">
+							<?php $url = U(MODULE_NAME . '/power', array('id'=>$item['id'],'mid'=>$mid)); ?>
+							<a href="javascript:Box.open({'id':'add','title':'编辑权限','iframe':'{{$url}}','width':'500','height':'300'});">[权限]</a>
+							<?php $url = U(MODULE_NAME . '/edit', array('id'=>$item['id'],'mid'=>$mid)); ?>
+							<a href="javascript:Box.open({'id':'add','title':'编辑角色','iframe':'{{$url}}','width':'400','height':'150'});">[编辑]</a>
+						</td>
+					</tr>
+					{{/foreach}}
+				</tbody>
+			</table>
+			<div class="btn">
+				<label for="check_box">全选/取消</label>
+				<select name="acttype" id="acttype">
+					<option value=''>操作类型</option>
+					<option value="status_yes">启用</option>
+					<option value="status_no">禁用</option>
+					<option value="remove">删除</option>
+				</select>
+				<input type="text" name="display_time" id="display_time" value="" size="21" class="date" style="display: none;" readonly />
+				<input type="submit" class="button" name="dosubmit" value="确定" />
+			</div>
+			<div id="pages">{{$page}}</div>
+		</div>
+	</form>
+</div>
+<include file="Public:main_footer" />

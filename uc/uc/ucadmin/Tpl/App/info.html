@@ -1,0 +1,68 @@
+{{include file="Public:main_header" /}}
+<script type="text/javascript" src="{{$APP_PATH}}__PUBLIC__/Js/formvalidator.js"></script>
+<script type="text/javascript" src="{{$APP_PATH}}__PUBLIC__/Js/formvalidatorregex.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$.formValidator.initConfig({autotip:true,formid:"myform",onerror:function(msg){}});
+		$("#appname").formValidator({onshow:"请输入应用名称",onfocus:"应用名称不能为空"}).inputValidator({min:1,max:80,onerror:"应用名称不能为空"});
+		$("#appcode").formValidator({onshow:"字母统一小写,如sxxl/epd等",onfocus:"代码不能为空"}).inputValidator({min:1,max:80,onerror:"代码不能为空"});
+		$('#appkey').formValidator({onshow:"数据交互使用",onfocus:"密钥不能为空"}).inputValidator({min:1,max:80,onerror:"密钥不能为空"});
+		$('#rurl').formValidator({onshow:"登录成功后要跳转的URL",onfocus:"跳转URL不能为空"}).inputValidator({min:1,max:180,onerror:"跳转URL不能为空"})
+		.ajaxValidator({
+            type : "get",url : "{{:U('Public/checkResource')}}",
+            success : function(data){if(data==2){return true;}},
+            onerror : "跳转URL不可用！"
+        });
+		$('#listener').formValidator({onshow:"守护进程,接收数据的程序URL",onfocus:"守护进程URL不能为空"}).inputValidator({min:1,max:80,onerror:"守护进程URL不能为空"})
+		.ajaxValidator({
+            type : "get",url : "{{:U('Public/checkResource')}}",
+            success : function(data){if(data==2){return true;}},
+            onerror : "守护进程URL不可用！"
+        });
+		$('#appid').formValidator({onshow:"请输入ID序列",onfocus:"请填写数字"}).regexValidator({regexp:"num1",datatype:"enum",onerror:"ID序列只能为数字"});
+	});
+</script>
+<div class="pad-10">
+	<div class="common-form">
+		<form name="myform" action='{{:U("$module_name/$action_name")}}' method="post" id="myform" enctype="multipart/form-data">
+			<table width="100%" class="table_form">
+				<tr>
+					<td width="60">应用ID</td>
+					<td><input type="text" name="appid" class="measure-input input-text" {{if condition="$info['appid']"}}readonly{{/if}} value="{{$info.appid}}" id="appid" /></td>
+				</tr>
+				<tr>
+					<td width="60">代码</td>
+					<td><input type="text" name="appcode" class="measure-input input-text" value="{{$info.appcode}}" id="appcode" /></td>
+				</tr>
+				<tr>
+					<td width="60">应用名称</td>
+					<td><input type="text" name="appname" class="measure-input input-text" value="{{$info.appname}}" id="appname" /></td>
+				</tr>
+				<tr>
+					<td width="60">密钥</td>
+					<td><input type="text" name="appkey" class="measure-input input-text" value="{{$info.appkey}}" id="appkey" size="45" /></td>
+				</tr>
+				<tr>
+					<td width="60">登录跳转页</td>
+					<td><input type="text" name="rurl" class="measure-input input-text" value="{{$info.rurl}}" id="rurl" size="45" /></td>
+				</tr>
+				<tr>
+					<td width="60">守护进程</td>
+					<td><input type="text" name="listener" class="measure-input input-text" value="{{$info.listener}}" id="listener" size="45" /></td>
+				</tr>
+				<tr>
+					<td>状态</td>
+					<td>
+						<select name="status">
+							<option value="2" {{if condition="$info.status == '2'"}}selected{{/if}}>启用</option>
+							<option value="1" {{if condition="$info.status == '1'"}}selected{{/if}}>禁用</option>
+						</select>
+					</td>
+				</tr>
+			</table>
+			<input name="id" type="hidden" value="{{$info.id}}" />
+			<input name="dosubmit" type="submit" id="dosubmit" value="提交" class="dialog">
+		</form>
+	</div>
+</div>
+<include file="Public:main_footer" />

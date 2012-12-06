@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=7" />
+<title>{{$pageTitle}}</title>
+<link href="{{$APP_PATH}}__PUBLIC__/Css/reset.css" rel="stylesheet" type="text/css" />
+<link href="{{$APP_PATH}}__PUBLIC__/Css/zh-cn-system.css" rel="stylesheet" type="text/css" />
+<link href="{{$APP_PATH}}__PUBLIC__/Css/table_form.css" rel="stylesheet" type="text/css" />
+<link href="{{$APP_PATH}}__PUBLIC__/Css/dialog.css" rel="stylesheet" type="text/css" />
+<link media="screen" title="styles1" href="{{$APP_PATH}}__PUBLIC__/Css/style/zh-cn-styles1.css" type="text/css" rel="stylesheet" />
+<link media="screen" title="styles2" href="{{$APP_PATH}}__PUBLIC__/Css/style/zh-cn-styles2.css" type="text/css" rel="alternate stylesheet" />
+<link media="screen" title="styles3" href="{{$APP_PATH}}__PUBLIC__/Css/style/zh-cn-styles3.css" type="text/css" rel="alternate stylesheet" />
+<link media="screen" title="styles4" href="{{$APP_PATH}}__PUBLIC__/Css/style/zh-cn-styles4.css" type="text/css" rel="alternate stylesheet" />
+<script type="text/javascript">var ISFRAME = 1;</script>
+<script type="text/javascript" src="{{$APP_PATH}}__PUBLIC__/Js/jquery.min.js"></script>
+<script type="text/javascript" src="{{$APP_PATH}}__PUBLIC__/Js/dialog.js"></script>
+<script type="text/javascript" src="{{$APP_PATH}}__PUBLIC__/Js/styleswitch.js"></script>
+<script type="text/javascript" src="{{$APP_PATH}}__PUBLIC__/Js/common.js"></script>
+<script type="text/javascript" src="{{$APP_PATH}}__PUBLIC__/Js/admin_common.js"></script>
+<script type="text/javascript" src="{{$APP_PATH}}__PUBLIC__/Js/My97DatePicker/WdatePicker.js"></script>
+</head>
+<body>
+{{if condition="$listMenus || $action_link"}}
+<div class="subnav">
+	<div class="content-menu ib-a blue line-x">
+		{{foreach item="item" name="columnMenus"}}
+		<a class="on {{$item.selected}}" href="{{$item.href}}" title="{{$item.title}}"><em>{{$item.title}}</em></a>
+		<span>|</span>
+		{{/foreach}}
+	</div>
+    <div class="content-menu ib-a blue line-x">
+		{{foreach item="item" name="listMenus"}}
+		<a class="on {{$item.selected}}" href="{{$item.href}}" title="{{$item.title}}"><em>{{$item.title}}</em></a>
+		<span>|</span>
+		{{/foreach}}
+		{{if condition="$action_link != ''"}}
+		{{foreach item="item" name="action_link"}}
+		<a class="add fb" href="{{$item.href}}" title="{{$item.text}}"><em>{{$item.text}}</em></a>&nbsp;&nbsp;
+		{{/foreach}}
+		{{/if}}
+	</div>
+</div>
+{{/if}}
+<style type="text/css">
+	html{_overflow-y:scroll}
+</style>

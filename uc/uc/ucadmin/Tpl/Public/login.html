@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>蝶讯会员中心-后台登录</title>
+		<link type="text/css" rel="stylesheet" href="{{$APP_PATH}}__PUBLIC__/Css/sxxladmin.css"  />
+		<script type="text/javascript" src="{{$APP_PATH}}__PUBLIC__/Js/jquery.min.js"></script>
+		<script type="text/javascript" src="{{$APP_PATH}}__PUBLIC__/Js/formvalidator.js"></script>
+		<script type="text/javascript" src="{{$APP_PATH}}__PUBLIC__/Js/formvalidatorregex.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				$.formValidator.initConfig({autotip:true,formid:"theform",onerror:function(msg){}});
+				$("#username").formValidator({onshow:"请输入用户名",onfocus:"用户名应该为1-40位之间"}).inputValidator({min:1,max:80,onerror:"用户名应该为1-40位之间"});
+				$("#password").formValidator({onshow:"请输入密码",onfocus:"密码应该为5-16位之间"}).inputValidator({min:5,max:16,onerror:"密码应该为5-16位之间"});
+			});
+		</script>
+		<object id="pcInfo" codeBase="user_info.cab#version=1,0,0,0" height="0" width="0" align="center" classid="clsid:56ED357C-E1D9-4BB7-9A03-410C03E7B312"></object>
+		<script type="text/javascript">
+			document.pcInfo.Cmd=1;
+			function loading() {
+				document.theform.cpu_info.value = document.pcInfo.CpuNumber;
+				document.theform.net_info.value = document.pcInfo.NetNumber;
+				document.theform.hd_info.value = document.pcInfo.HdNumber;
+				document.theform.pc_name.value = document.pcInfo.PcName;
+			}
+			$(function(){loading();});
+		</script>
+    </head>
+    <body id="alogin" onload="document.theform.username.focus();">
+		<div class="pageMain">
+			<h2 class="title_pageMain"></h2>
+			<div class="pageCenter_pageMain">
+				<div class="logo_pageMain"></div>
+                <form method="post" action="{{:U('Public/checkLogin')}}" name="theform" id="theform" align="center">
+					<input type="hidden" name="cpu_info" value="" /> 
+					<input type="hidden" name="net_info" value="" /> 
+					<input type="hidden" name="hd_info" value="" /> 
+					<input type="hidden" name="pc_name" value="" />
+					<ul class="caseText_pageMain">
+						<li>
+							<label class="Text-head-two">管理员账号</label>
+							<input name="username" id="username" type="text" value="" class="Text-one-box"  tabindex="1" />
+						</li>
+						<li>
+							<label class="Text-head-one">管理员密码</label>
+							<input name="password" id="password" type="password" value="" class="Text-one-box" tabindex="2" />
+						</li>
+						<li class="special">
+							<div id="msg"></div>
+							<input name="dosubmit" type="submit" id="submitbn" value="登录" class="btnLogin" />
+							<input type="reset" value="取消" class="btnCancel" />
+						</li>
+					</ul>
+				</form>
+			</div>
+		</div>
+    </body>
+</html>

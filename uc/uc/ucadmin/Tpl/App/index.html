@@ -1,0 +1,57 @@
+{{include file="Public:main_header" /}}
+<div class="pad-lr-10">
+	<form name="myform" action='{{:U("$module_name/batch")}}' method="post" onsubmit="checkListFrom('ids[]','请选择你要操作的数据');return false;">
+		<div class="table-list">
+			<table width="100%" cellspacing="0">
+				<thead>
+					<tr>
+						<th  align="left" width="65"><label for="check_box"><input type="checkbox" value="" id="check_box" onclick="selectall('ids[]');">编号</label></th>
+						<th align="left">应用ID</th>
+						<th align="left">代码</th>
+						<th align="left">应用名称</th>
+						<th align="left">密钥</th>
+						<th align="left">登录跳转页</th>
+						<th align="left">守护进程URL</th>
+						<th align="left">状态</th>
+						<th align="left">操作</th>
+					</tr>
+				</thead>
+				<tbody id="table_list_body">
+					{{foreach item="item" name="list"}}
+					<tr>
+						<td align="left" width="65">
+							<label for="t_list_{{$item.id}}">
+								<input id="t_list_{{$item.id}}" type="checkbox" value="{{$item.id}}" name="ids[]">{{$item.id}}
+							</label>
+						</td>
+						<td align="left">{{$item.appid}}</td>
+						<td align="left">{{$item.appcode}}</td>
+						<?php $url = U(MODULE_NAME . '/edit', array('id'=>$item['id'],'mid'=>$mid)); ?>
+						<td align="left"><a href="javascript:Box.open({'id':'add','title':'编辑应用','iframe':'{{$url}}','width':'650','height':'300'});">{{$item.appname}}</a></td>
+						<td align="left" title="{{$item.appkey}}">{{$item.appkey}}</a></td>
+						<td align="left" ><span title="{{$item.rurl}}">{{$item.rurl}}</span> <img src="<?php echo checkResource($item['rurl']) ? '/ucadmin/Public/Images/ok.gif':'/ucadmin/Public/Images/no.gif';?>" /> </td> 
+						<td align="left" ><span title="{{$item.listener}}">{{$item.listener}}</span> <img src="<?php echo checkResource($item['listener']) ? '/ucadmin/Public/Images/ok.gif':'/ucadmin/Public/Images/no.gif';?>" /></td>
+						<td align="left">{{$item.status|getStatus}}</td>
+						<td align="left">
+							<a href="javascript:Box.open({'id':'add','title':'编辑应用','iframe':'{{$url}}','width':'650','height':'300'});">[编辑]</a>
+						</td>
+					</tr>
+					{{/foreach}}
+				</tbody>
+			</table>
+			<div class="btn">
+				<label for="check_box">全选/取消</label>
+				<select name="acttype" id="acttype">
+					<option value=''>操作类型</option>
+					<option value="status_yes">启用</option>
+					<option value="status_no">禁用</option>
+					<option value="remove">删除</option>
+				</select>
+				<input type="text" name="display_time" id="display_time" value="" size="21" class="date" style="display: none;" readonly />
+				<input type="submit" class="button" name="dosubmit" value="确定" />
+			</div>
+			<div id="pages">{{$page}}</div>
+		</div>
+	</form>
+</div>
+<include file="Public:main_footer" />

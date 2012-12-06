@@ -1,0 +1,66 @@
+{{include file="Public:main_header" /}}
+<div class="pad-lr-10">
+	<form name="searchform" action='{{:U("$module_name/$action_name")}}' method="GET" >
+		<input type="hidden" name="m" value="{{$module_name}}" />
+		<input type="hidden" name="a" value="{{$action_name}}" />
+		<input type="hidden" name="mid" value="{{$mid}}" />
+		<input type="hidden" name="id" value="{{$id}}" />
+		<table width="100%" cellspacing="0" class="search-form">
+			<tr>
+				<td>
+					<div class="explain-col">
+						<input name="keyword" type="text" value="{{$keyword}}" class="input-text" />
+						操作时间:
+						<input type="text" name="time_start" id="time_start" value="{{$time_start}}" size="21" class="date" readonly />
+						<input type="text" name="time_end" id="time_end" value="{{$time_end}}" size="21" class="date" readonly />
+						<input type="submit" name="search" class="button" value="搜索" />
+					</div>
+				</td>
+			</tr>
+		</table>
+	</form>	
+	<form name="myform" action='{{:U("$module_name/batch")}}' method="post" onsubmit="checkListFrom('ids[]','请选择你要操作的数据');return false;">
+		<div class="table-list">
+			<table width="100%" cellspacing="0">
+				<thead>
+					<tr>
+						<th  align="left" width="65"><label for="check_box"><input type="checkbox" value="" id="check_box" onclick="selectall('ids[]');">编号</label></th>
+						<!--<th align="left">管理员ID</th>-->
+						<th align="left">操作模块</th>
+						<th align="left">操作方法</th>
+						<th align="left">登录时间</th>
+						<th align="left">操作信息</th>
+					</tr>
+				</thead>
+				<tbody id="table_list_body">
+					{{foreach item="item" name="list"}}
+					<tr>
+						<td align="left" width="65"><label for="t_list_{{$item.tid}}"><input id="t_list_{{$item.id}}" type="checkbox" value="{{$item.id}}" name="ids[]">{{$item.id}}</label></td>
+						<!--<td align="left">{{$item.uid}}</td>-->
+						<td align="left">{{$item.module}}</td>
+						<td align="left">{{$item.action}}</td>
+						<td align="left">{{$item.optime|date='Y-m-d H:i:s',###}}</td>						
+						<td align="left">{{$item.opinfo}}</td>
+					</tr>
+					{{/foreach}}
+				</tbody>
+			</table>
+<!--			<div class="btn">
+				<label for="check_box">全选/取消</label>
+				<select name="acttype" id="acttype">
+					<option value=''>操作类型</option>
+					<option value="remove">删除</option>
+				</select>
+				<input type="submit" class="button" name="dosubmit" value="确定" />
+			</div>-->
+			<div id="pages">{{$page}}</div>
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+	$(function(){
+		$('#time_start').click(function() {WdatePicker({el:'time_start',dateFmt:'yyyy-MM-dd'});});
+		$('#time_end').click(function() {WdatePicker({el:'time_end',dateFmt:'yyyy-MM-dd'});	});
+	});
+</script>
+<include file="Public:main_footer" />

@@ -1,0 +1,34 @@
+{{include file="Public:main_header" /}}
+<script type="text/javascript">
+	parent.document.title = '管理中心 » 修改资料';
+	if(parent.$('#current_pos')) parent.$('#current_pos').html('首页&nbsp;»&nbsp;修改资料');
+</script>
+<script type="text/javascript" src="{{$APP_PATH}}__PUBLIC__/Js/formvalidator.js"></script>
+<script type="text/javascript" src="{{$APP_PATH}}__PUBLIC__/Js/formvalidatorregex.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$.formValidator.initConfig({autotip:true,formid:"myform",onerror:function(msg){}});
+		$("#real_name").formValidator({onshow:"请输入属性名称",onfocus:"属性名称应该为1-40位之间"}).inputValidator({min:1,max:80,onerror:"属性名称应该为1-40位之间"});
+		$('#email').formValidator({onshow:"请输入排序",onfocus:"请填写邮件地址"}).regexValidator({regexp:"email",datatype:"enum",onerror:"请填写正确的邮件地址"});
+	});
+</script>
+<div class="pad-10">
+	<div class="common-form">
+		<form name="myform" action='{{:U("$module_name/$action_name")}}' method="post" id="myform" enctype="multipart/form-data">
+			<table width="100%" class="table_form">
+				<tr>
+					<td width="60">用户名</td>
+					<td>{{$info.account}}</td>
+				</tr>
+				<tr>
+					<td width="60">昵称</td>
+					<td><input type="text" name="real_name" class="measure-input input-text" value="{{$info.real_name}}" id="real_name" /></td>
+				</tr>
+			</table>
+			<br />
+			<input name="id" type="hidden" value="{{$info.id}}" />
+			<input name="dosubmit" type="submit" id="dosubmit" value="提交">
+		</form>
+	</div>
+</div>
+<include file="Public:main_footer" />

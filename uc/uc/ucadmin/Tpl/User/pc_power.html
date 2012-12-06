@@ -1,0 +1,67 @@
+{{include file="Public:main_header" /}}
+<div class="pad-lr-10">
+	<form name="searchform" action='{{:U("$module_name/$action_name")}}' method="GET" >
+		<input type="hidden" name="m" value="{{$module_name}}" />
+		<input type="hidden" name="a" value="{{$action_name}}" />
+		<input type="hidden" name="mid" value="{{$mid}}" />
+		<input type="hidden" name="id" value="{{$id}}" />
+		<table width="100%" cellspacing="0" class="search-form">
+			<tr>
+				<td>
+					<div class="explain-col">
+						<input name="keyword" type="text" value="{{$keyword}}" class="input-text" />
+<!--						操作时间:
+						<input type="text" name="time_start" id="time_start" value="{{$time_start}}" size="21" class="date" readonly />
+						<input type="text" name="time_end" id="time_end" value="{{$time_end}}" size="21" class="date" readonly />-->
+						<input type="submit" name="search" class="button" value="搜索" />
+					</div>
+				</td>
+			</tr>
+		</table>
+	</form>	
+	<form name="myform" action='{{:U("$module_name/batch")}}' method="post" onsubmit="checkListFrom('ids[]','请选择你要操作的数据');return false;">
+		<div class="table-list">
+			<table width="100%" cellspacing="0">
+				<thead>
+					<tr>
+						<th  align="left" width="65"><label for="check_box"><input type="checkbox" value="" id="check_box" onclick="selectall('ids[]');">编号</label></th>
+						<th align="left">电脑名</th>
+						<th align="left">网卡地址</th>
+						<th align="left">CPU地址</th>
+						<th align="left">添加时间</th>
+						<th align="left">状态</th>
+						<th align="left">操作</th>
+					</tr>
+				</thead>
+				<tbody id="table_list_body">
+					{{foreach item="item" name="list"}}
+					<tr>
+						<td align="left" width="65"><label for="t_list_{{$item.id}}"><input id="t_list_{{$item.id}}" type="checkbox" value="{{$item.id}}" name="ids[]">{{$item.id}}</label></td>
+						<td align="left">{{$item.computer_name}}</td>
+						<td align="left">{{$item.mac_id}}</td>
+						<td align="left">{{$item.cpu_id}}</td>
+						<td align="left">{{$item.add_time|toDate='Y-m-d H#i#s'}}</td>
+						<?php $url = U(MODULE_NAME . '/pcPower', array('acttype'=>'status_'.($item['status'] == 2 ? no : yes),'id'=>$item['id'],'mid'=>$mid)); ?>
+						<td align="left"><a href="{{$url}}">{{$item.status|getStatus}}</a></td>
+						<?php $url = U(MODULE_NAME . '/pcPower', array('acttype'=>'remove','id'=>$item['id'],'mid'=>$mid)); ?>
+						<td align="left" width="65"><a href="{{$url}}">删除</a></td>
+					</tr>
+					{{/foreach}}
+				</tbody>
+			</table>
+<!--			<div class="btn">
+				<label for="check_box">全选/取消</label>
+				<select name="acttype" id="acttype">
+					<option value=''>操作类型</option>
+					<option value="status_yes">启用</option>
+					<option value="status_no">禁用</option>
+					<option value="remove">删除</option>
+				</select>
+				<input type="text" name="display_time" id="display_time" value="" size="21" class="date" style="display: none;" readonly />
+				<input type="submit" class="button" name="dosubmit" value="确定" />
+			</div>-->
+			<div id="pages">{{$page}}</div>
+		</div>
+	</form>
+</div>
+<include file="Public:main_footer" />

@@ -1,0 +1,27 @@
+﻿/* 初始重置 */
+body{margin:0;padding:0;background:url(../Images/admin_bg.png) repeat 0 0;font-size:12px;font-family:"宋体", Arial, Helvetica, sans-serif;color:#000}
+div, h1, h2, h3, h4, h5, h6, hr, br, p, blockquote, dl, dt, dd, ul, ol, li, caption, pre, form, fieldset, legend, button, input, label, select, textarea, code, kbd, pre, samp, isindex, multicol, listing, xmp, plaintext, dir, iframe, keygen, map, marquee, datagrid, meter, option, bdo, ruby, thead, tbody, tfoot, colgroup, hgroup, table, th, td, applet, object, cite, abbr, acronym, del, dfn, em, ins, kbd, strike, strong, tt{margin:0;padding:0;text-align:left;background:transparent;border:0}
+h1, h2, h3, h4, h5, h6, address, cite, dfn, em, var, strong, b, i, optgroup, option{font-weight:normal;font-style:normal}
+menu ,ul ,ol, li{list-style:none}
+thead, tbody, tfoot{vertical-align: middle;border:0 none}
+ins, u{text-decoration: underline}
+strike, del, s{text-decoration:line-through}
+fieldset, img, iframe{border:0 none;vertical-align:top;padding:0;margin:0}
+table,tr,td{border-collapse:collapse;border-spacing:0px;text-indent:0}
+hr{border:none;border-bottom:1px dotted #CCCCCC;height:1px;width:100%;margin:10px 0px 15px}
+
+/* 表单修饰 */
+.Border-onePx{border-width:1px;border-style:solid;border-color:#afafaf #e0e0e0 #e9e9e9 #e6e6e6}
+.Text-head-one,.Text-head-two{width:70px;line-height:22px;height:22px;overflow:hidden;float:left;background:url(../Images/Description_caseText.gif) no-repeat 0 0;margin-top:10px;margin-right:8px;overflow:hidden;text-indent:-9999px}
+.Text-head-two{background-position:0 -23px}
+.Text-one-box{width:136px;height:23px;line-height:23px;padding:3px 3px 3px 6px;color:#000;float:left;background:url(../Images/caseText.png) no-repeat 0 0}
+.btnLogin,.btnCancel{width:59px;height:24px;float:left;overflow:hidden;text-indent:-999px;background:url(../Images/btnLogin.png) no-repeat 0 0;cursor:pointer}
+.btnCancel{background:url(../Images/btnCancel.png) no-repeat 0 0;margin-left:26px}
+
+/* 页面主体 */
+.pageMain{width:548px;height:259px;margin:0 auto;margin-top:100px;background:url(../Images/pageMain_bg.png) no-repeat 0 0;padding-left:12px;overflow:hidden}
+.title_pageMain{width:295px;height:24px;background:url(../Images/admin_title.png) no-repeat 0 0;margin-top:9px}
+.logo_pageMain{width:242px;height:68px;background:url(../Images/sxxl_logo.png) no-repeat 0 0;margin-top:54px;margin-left:8px;float:left;margin-right:8px}
+.caseText_pageMain{width:262px;height:185px;float:left;background:url(../Images/box_rim+Vertical.gif) no-repeat 0 0px;margin-top:25px;padding-top:30px}
+.caseText_pageMain li{height:29px;clear:both;margin-bottom:14px;padding-left:34px;*margin-bottom:12px!important;_margin-bottom:9px}
+.caseText_pageMain li.special{padding-left:112px}

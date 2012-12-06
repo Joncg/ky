@@ -1,0 +1,55 @@
+{{include file="Public:main_header" /}}
+<script type="text/javascript" src="{{$APP_PATH}}__PUBLIC__/Js/formvalidator.js"></script>
+<script type="text/javascript" src="{{$APP_PATH}}__PUBLIC__/Js/formvalidatorregex.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$.formValidator.initConfig({autotip:true,formid:"myform",onerror:function(msg){}});
+		$("#username").formValidator({onshow:"请输入会员名称",onfocus:"会员名称不能为空"}).inputValidator({min:1,max:80,onerror:"会员名称不能为空"});
+		{{if condition="$info.id == ''"}}
+		$("#password").formValidator({onshow:"请输入会员密码",onfocus:"会员密码不能为空"}).inputValidator({min:1,max:80,onerror:"会员密码不能为空"});
+		{{/if}}
+		$("#appid").formValidator({onshow:"请选择应用",onfocus:"请选择应用"}).inputValidator({min:1,onerror:"请选择应用"});
+	});
+</script>
+<div class="pad-10">
+	<div class="common-form">
+		<form name="myform" action='{{:U("$module_name/$action_name")}}' method="post" id="myform" enctype="multipart/form-data">
+			<fieldset>
+				<legend>基本信息</legend>
+				<table width="100%" class="table_form">
+					<tr>
+						<td width="60">会员名称</td>
+						<td><input type="text" name="username" class="measure-input input-text" {{if condition="$info['id']"}}readonly{{/if}} value="{{$info.username}}" id="username" /></td>
+					</tr>
+					<tr>
+						<td width="60">帐户密码</td>
+						<td><input type="text" name="password" class="measure-input input-text" value="" id="password" /></td>
+					</tr>
+					<tr>
+						<td>应用</td>
+						<td>
+							<select name="appid" id="appid">
+								<option value="">请选择</option>
+								{{foreach item="item" name="apps"}}
+								<option value="{{$item.id}}" {{if condition="$item['id'] == $info['appid']"}}selected{{/if}}>{{$item.appname}}</option>
+								{{/foreach}}
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>状态</td>
+						<td>
+							<select name="status">
+								<option value="2" {{if condition="$info.status == 2"}}selected{{/if}}>启用</option>
+								<option value="1" {{if condition="$info.status == 1"}}selected{{/if}}>禁用</option>
+							</select>
+						</td>
+					</tr>
+				</table>
+			</fieldset>
+			<input name="id" type="hidden" value="{{$info.id}}" />
+			<input name="dosubmit" type="submit" id="dosubmit" value="提交" class="dialog">
+		</form>
+	</div>
+</div>
+<include file="Public:main_footer" />

@@ -1,0 +1,320 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" class="off">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<title>后台管理中心</title>
+<link href="{{$APP_PATH}}__PUBLIC__/Css/reset.css" rel="stylesheet" type="text/css" />
+<link href="{{$APP_PATH}}__PUBLIC__/Css/zh-cn-system.css" rel="stylesheet" type="text/css" />
+<link href="{{$APP_PATH}}__PUBLIC__/Css/dialog.css" rel="stylesheet" type="text/css" />
+<link rel="alternate stylesheet" type="text/css" href="{{$APP_PATH}}__PUBLIC__/Css/style/zh-cn-styles1.css" title="styles1" media="screen" />
+<link rel="alternate stylesheet" type="text/css" href="{{$APP_PATH}}__PUBLIC__/Css/style/zh-cn-styles2.css" title="styles2" media="screen" />
+<link rel="alternate stylesheet" type="text/css" href="{{$APP_PATH}}__PUBLIC__/Css/style/zh-cn-styles3.css" title="styles3" media="screen" />
+<link rel="alternate stylesheet" type="text/css" href="{{$APP_PATH}}__PUBLIC__/Css/style/zh-cn-styles4.css" title="styles4" media="screen" />
+<script type="text/javascript" src="{{$APP_PATH}}__PUBLIC__/Js/jquery.min.js"></script>
+<script type="text/javascript" src="{{$APP_PATH}}__PUBLIC__/Js/styleswitch.js"></script>
+<script type="text/javascript" src="{{$APP_PATH}}__PUBLIC__/Js/dialog.js"></script>
+<script type="text/javascript" src="{{$APP_PATH}}__PUBLIC__/Js/common.js"></script>
+<script type="text/javascript">document.documentElement.style.overflow = 'hidden'; //隐藏滚动条</script>
+</head>
+<body>
+<div id="dvLockScreen" class="ScreenLock" style="display:none">
+	<div id="dvLockScreenWin" class="inputpwd">
+		<h5><b class="ico ico-info"></b><span id="lock_tips">锁屏状态，请输入密码解锁</span></h5>
+		<div class="input">
+			<label class="lb">密码：</label>
+			<input type="password" id="lock_password" class="input-text" size="24" />
+			<input type="submit" class="submit" value="&nbsp;" name="dosubmit" onclick="check_screenlock();return false;" />
+		</div>
+	</div>
+</div>
+<div class="header">
+	<div class="logo lf"><a href="__APP__"><span class="invisible">后台管理</span></a></div>
+	<div class="rt-col">
+		<div class="tab_style white cut_line text-r">
+			<a href="javascript:void(0);" onclick="goCacheUrl();">更新缓存</a>
+<!--			<a href="javascript:;" onclick="lock_screen()"><img src="{{$APP_PATH}}__PUBLIC__/Images/icon/lockscreen.png" alt="" /> 锁屏</a>
+			<span>|</span>
+			<a href="/index.php" target="_blank">站点首页</a>-->
+			<ul id="Skin">
+				<li class="s1 styleswitch" rel="styles1"></li>
+				<li class="s2 styleswitch" rel="styles2"></li>
+				<li class="s3 styleswitch" rel="styles3"></li>
+				<li class="s4 styleswitch" rel="styles4"></li>
+			</ul>
+		</div>
+	</div>
+	<div class="col-auto">
+		<div class="log white cut_line">
+			您好！{{$loginUser}}({{$loginUserName}})
+			<span>|</span>
+			<a href="{{:U('Public/logout')}}">[退出]</a>
+		</div>
+		<ul class="nav white" id="top_menu">
+			<li id="_M0" class="on top_menu"><a href="javascript:_M(0,'{{:U('Public/main')}}')" hidefocus="true" style="outline:none;">我的面板</a></li>
+			{{foreach name="menu" item="item"}}
+			{{if condition="$item.child != ''"}}
+			<li id="_M{{$item.id}}" class="top_menu"><a href="javascript:_M({{$item.id}},'')" hidefocus="true" style="outline:none;">{{$item.title}}</a></li>
+			{{/if}}
+			{{/foreach}}
+		</ul>
+	</div>
+</div>
+<div id="content">
+	<div class="col-left left_menu">
+		<div style="height: 372px;" id="Scroll">
+			<div id="leftMain">
+				<div id="_M_S0" class="menu_list">
+					<h3 class="f14"><span class="switchs cu on" title="展开与收缩"></span>个人信息</h3>
+					<ul style="display: block;">
+						<li id="_MP9998" class="sub_menu">
+							<a href="javascript:_MP(9998,'{{:U('Public/profile')}}');" hidefocus="true" style="outline:none;">修改个人信息</a>
+						</li>
+						<li id="_MP9999" class="sub_menu">
+							<a href="javascript:_MP(9999,'{{:U('Public/password')}}');" hidefocus="true" style="outline:none;">修改密码</a>
+						</li>
+					</ul>
+				</div>
+				{{foreach name="menu" item="item"}}
+				{{if condition="$item.child != ''"}}
+				<div id="_M_S{{$item.id}}" class="menu_list" style="display:none;">
+					<h3 class="f14"><span class="switchs cu on" title="展开与收缩"></span>{{$item.title}}</h3>
+					<ul style="display: block;">
+						{{foreach name="item['child']" item="child"}}
+						<li id="_MP{{$child.id}}" class="sub_menu">
+							<?php $url = U($child['name'].'/index', array('mid'=>$child['id']));?>
+							<span onclick="_MP({{$child.id}},'{{$url}}');"><a href="{{$url}}" target="main" hidefocus="true" style="outline:none;">{{$child.title}}</a></span>
+						</li>
+						{{/foreach}}
+					</ul>
+				</div>
+				{{/if}}
+				{{/foreach}}
+			</div>
+		</div>
+		<a href="javascript:;" id="openClose" style="outline-style: none; outline-width: medium; height: 422px;" hidefocus="hidefocus" class="open" title="展开与关闭">
+			<span class="hidden">展开</span>
+		</a>
+	</div>
+	<div class="col-1 lf cat-menu" id="display_center_id" style="display:none" height="100%">
+		<div class="content">
+			<iframe name="center_frame" id="center_frame" src="" frameborder="false" scrolling="auto" style="border:none" width="100%" height="auto" allowtransparency="true"></iframe>
+		</div>
+	</div>
+	<div class="col-auto mr8">
+		<div class="crumbs">
+<!--			<div class="shortcut cu-span">
+				<a href="javascript:art.dialog({id:'map',iframe:'http://www.soso.com', title:'后台地图', width:'700', height:'500', lock:true});void(0);"><span>后台地图</span></a>
+			</div>-->
+			当前位置：<span id="current_pos"></span></div>
+		<div class="col-1">
+			<div class="content" style="position:relative; overflow:hidden">
+				<iframe name="main" id="rightMain" src="{{:U('Public/main')}}" frameborder="false" scrolling="auto" style="border:none;" width="100%" height="auto" allowtransparency="true"></iframe>
+			</div>
+		</div>
+	</div>
+</div>
+<input id="menuid" type="hidden" value="" />
+<div class="scroll"><a href="javascript:;" class="per" title="使用鼠标滚轴滚动侧栏" onclick="menuScroll(1);"></a><a href="javascript:;" class="next" title="使用鼠标滚轴滚动侧栏" onclick="menuScroll(2);"></a></div>
+<script type="text/javascript">
+	// 更新缓存
+	function goCacheUrl(){
+		mainurl = window.main.location.href;
+		window.main.location.href= "{{:U('Index/cache')}}&forward="+encodeURIComponent(mainurl);
+	}
+
+	$(".switchs").each(function(i){
+		var ul = $(this).parent().next();
+		$(this).click(
+		function(){
+			if(ul.is(':visible')){
+				ul.hide();
+				$(this).removeClass('on');
+					}else{
+				ul.show();
+				$(this).addClass('on');
+			}
+		})
+	});
+	if(!Array.prototype.map)
+	Array.prototype.map = function(fn,scope) {
+			var result = [],ri = 0;
+			for (var i = 0,n = this.length; i < n; i++){
+				if(i in this){
+					result[ri++]  = fn.call(scope ,this[i],i,this);
+				}
+			}
+		return result;
+	};
+
+	var getWindowSize = function(){
+		return ["Height","Width"].map(function(name){
+			return window["inner"+name] ||
+				document.compatMode === "CSS1Compat" && document.documentElement[ "client" + name ] || document.body[ "client" + name ]
+		});
+	}
+	window.onload = function (){
+		if(!+"\v1" && !document.querySelector) { // for IE6 IE7
+			document.body.onresize = resize;
+		} else {
+			window.onresize = resize;
+		}
+		function resize() {
+			wSize();
+			return false;
+		}
+	}
+	function wSize(){
+		//这是一字符串
+		var str=getWindowSize();
+		var strs= new Array(); //定义一数组
+		strs=str.toString().split(","); //字符分割
+		var heights = strs[0]-121,Body = $('body');
+		$('#rightMain').height(heights);
+		if(strs[1]<980){
+			$('.header').css('width',980+'px');
+			$('#content').css('width',980+'px');
+			Body.attr('scroll','');
+			Body.removeClass('objbody');
+		}else{
+			$('.header').css('width','auto');
+			$('#content').css('width','auto');
+			Body.attr('scroll','no');
+			Body.addClass('objbody');
+		}
+
+		var openClose = $("#rightMain").height()+39;
+		$('#center_frame').height(openClose+9);
+		$("#openClose").height(openClose+30);
+		$("#Scroll").height(openClose-20);
+		windowW();
+	}
+	wSize();
+	function windowW(){
+		if($('#Scroll').height()<$("#leftMain").height()){
+			$(".scroll").show();
+		}else{
+			$(".scroll").hide();
+		}
+	}
+	windowW();
+	//左侧开关
+	$("#openClose").click(function(){
+		if($(this).data('clicknum')==1) {
+			$("html").removeClass("on");
+			$(".left_menu").removeClass("left_menu_on");
+			$(this).removeClass("close");
+			$(this).data('clicknum', 0);
+			$(".scroll").show();
+		} else {
+			$(".left_menu").addClass("left_menu_on");
+			$(this).addClass("close");
+			$("html").addClass("on");
+			$(this).data('clicknum', 1);
+			$(".scroll").hide();
+		}
+		return false;
+	});
+
+	function _M(menuid,targetUrl) {
+		$("#menuid").val(menuid);
+		if (targetUrl) $("#rightMain").attr('src', targetUrl);
+		$('.top_menu').removeClass("on");
+		$('#_M'+menuid).addClass("on");
+		$('#_M_S'+menuid).show().siblings('.menu_list').hide();
+		//当点击顶部菜单后，隐藏中间的框架
+		$('#display_center_id').css('display','none');
+		//显示左侧菜单，当点击顶部时，展开左侧
+		$(".left_menu").removeClass("left_menu_on");
+		$("#openClose").removeClass("close");
+		$("html").removeClass("on");
+		$("#openClose").data('clicknum', 0);
+		$("#current_pos").data('clicknum', 1);
+		//默认选择第一个
+		if ($('#_M_S'+menuid+' li') && menuid > 0) {
+			$('#_M_S'+menuid+' li').eq(0).addClass('on fb blue').siblings('#leftMain .sub_menu').removeClass("on fb blue");
+			var url = $('#_M_S'+menuid+' li a').eq(0).attr('href');
+			window.main.location.href= url;
+		}
+	}
+	function _MP(menuid,targetUrl) {
+		$("#menuid").val(menuid);
+		$("#rightMain").attr('src', targetUrl);
+		$('#_MP'+menuid).addClass("on fb blue").siblings('#leftMain .sub_menu').removeClass("on fb blue");
+		$("#current_pos").data('clicknum', 1);
+	}
+	function lock_screen() {
+		$('#dvLockScreen').css('display','');
+	}
+	function check_screenlock() {
+		var lock_password = $('#lock_password').val();
+		if(lock_password=='') {
+			$('#lock_tips').html('<font color="red">密码不能为空。</font>');
+			return false;
+		}
+	}
+	$(document).bind('keydown', 'return', function(evt){check_screenlock();return false;});
+
+	(function(){
+		var addEvent = (function(){
+			if (window.addEventListener) {
+                return function(el, sType, fn, capture) {
+                    el.addEventListener(sType, fn, (capture));
+                };
+            } else if (window.attachEvent) {
+                return function(el, sType, fn, capture) {
+                    el.attachEvent("on" + sType, fn);
+                };
+            } else {
+                return function(){};
+            }
+        })(),
+		Scroll = document.getElementById('Scroll');
+		// IE6/IE7/IE8/Opera 10+/Safari5+
+		addEvent(Scroll, 'mousewheel', function(event){
+			event = window.event || event ;
+			if(event.wheelDelta <= 0 || event.detail > 0) {
+				Scroll.scrollTop = Scroll.scrollTop + 29;
+			} else {
+				Scroll.scrollTop = Scroll.scrollTop - 29;
+			}
+		}, false);
+
+		// Firefox 3.5+
+		addEvent(Scroll, 'DOMMouseScroll',  function(event){
+			event = window.event || event ;
+			if(event.wheelDelta <= 0 || event.detail > 0) {
+				Scroll.scrollTop = Scroll.scrollTop + 29;
+			} else {
+				Scroll.scrollTop = Scroll.scrollTop - 29;
+			}
+		}, false);
+
+	})();
+	function menuScroll(num){
+		var Scroll = document.getElementById('Scroll');
+		if(num==1){
+			Scroll.scrollTop = Scroll.scrollTop - 60;
+		}else{
+			Scroll.scrollTop = Scroll.scrollTop + 60;
+		}
+	}
+
+	function resetEscAndF5(e) {
+		e = e ? e : window.event;
+		actualCode = e.keyCode ? e.keyCode : e.charCode;
+		if(actualCode == 116 && parent.main) {
+			parent.main.location.reload();
+			if(document.all) {
+				e.keyCode = 0;
+				e.returnValue = false;
+			} else {
+				e.cancelBubble = true;
+				e.preventDefault();
+			}
+		}
+	}
+	_attachEvent(document.documentElement, 'keydown', resetEscAndF5);
+</script>
+</body>
+</html>

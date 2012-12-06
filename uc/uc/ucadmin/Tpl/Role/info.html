@@ -1,0 +1,33 @@
+{{include file="Public:main_header" /}}
+<script type="text/javascript" src="{{$APP_PATH}}__PUBLIC__/Js/formvalidator.js"></script>
+<script type="text/javascript" src="{{$APP_PATH}}__PUBLIC__/Js/formvalidatorregex.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$.formValidator.initConfig({autotip:true,formid:"myform",onerror:function(msg){}});
+		$("#name").formValidator({onshow:"请输入名称",onfocus:"名称不能为空"}).inputValidator({min:1,max:80,onerror:"名称不能为空"});
+	});
+</script>
+<div class="pad-10">
+	<div class="common-form">
+		<form name="myform" action='{{:U("$module_name/$action_name")}}' method="post" id="myform" enctype="multipart/form-data">
+			<table width="100%" class="table_form">
+				<tr>
+					<td width="60">名称</td>
+					<td><input type="text" name="name" class="measure-input input-text" value="{{$info.name}}" id="name" /></td>
+				</tr>
+				<tr>
+					<td>状态</td>
+					<td>
+						<select name="status">
+							<option value="2" {{if condition="$info.status == '2'"}}selected{{/if}}>启用</option>
+							<option value="1" {{if condition="$info.status == '1'"}}selected{{/if}}>禁用</option>
+						</select>
+					</td>
+				</tr>
+			</table>
+			<input name="id" type="hidden" value="{{$info.id}}" />
+			<input name="dosubmit" type="submit" id="dosubmit" value="提交" class="dialog">
+		</form>
+	</div>
+</div>
+<include file="Public:main_footer" />
