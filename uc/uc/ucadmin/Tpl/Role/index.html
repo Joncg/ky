@@ -35,8 +35,10 @@
 						<td align="left">{{$item.name}}</td>
 						<td align="left">{{$item.status|getStatus}}</td>
 						<td align="left">
+							{{if condition="$item.id != 1"}}
 							<?php $url = U(MODULE_NAME . '/power', array('id'=>$item['id'],'mid'=>$mid)); ?>
 							<a href="javascript:Box.open({'id':'add','title':'编辑权限','iframe':'{{$url}}','width':'500','height':'300'});">[权限]</a>
+							{{/if}}
 							<?php $url = U(MODULE_NAME . '/edit', array('id'=>$item['id'],'mid'=>$mid)); ?>
 							<a href="javascript:Box.open({'id':'add','title':'编辑角色','iframe':'{{$url}}','width':'400','height':'150'});">[编辑]</a>
 						</td>

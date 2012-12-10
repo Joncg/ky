@@ -7,7 +7,6 @@
 					<tr>
 						<th  align="left" width="65"><label for="check_box"><input type="checkbox" value="" id="check_box" onclick="selectall('ids[]');">编号</label></th>
 						<th align="left">应用ID</th>
-						<th align="left">代码</th>
 						<th align="left">应用名称</th>
 						<th align="left">密钥</th>
 						<th align="left">登录跳转页</th>
@@ -25,7 +24,6 @@
 							</label>
 						</td>
 						<td align="left">{{$item.appid}}</td>
-						<td align="left">{{$item.appcode}}</td>
 						<?php $url = U(MODULE_NAME . '/edit', array('id'=>$item['id'],'mid'=>$mid)); ?>
 						<td align="left"><a href="javascript:Box.open({'id':'add','title':'编辑应用','iframe':'{{$url}}','width':'650','height':'300'});">{{$item.appname}}</a></td>
 						<td align="left" title="{{$item.appkey}}">{{$item.appkey}}</a></td>

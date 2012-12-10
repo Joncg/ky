@@ -6,6 +6,7 @@ class InterfaceAction extends Action {
 	public $ret	  = array( 'status'=>1, 'desc'=>'参数不符合要求。', );
 	public $appid = null;
 	public $user  = null;
+	public $startime = null; //进程开始运行时间
 
 	//监听方法::还原指令，并转发请求的接口
     public function listener()
@@ -15,6 +16,7 @@ class InterfaceAction extends Action {
 //			preg_match('/\/\/.*\.(.+)\..*?\//ism',$_SERVER['HTTP_REFERER'],$tmp );
 //			if( $tmp[1] ) $appcode = $tmp[1];
 //		}
+		$this->startime = microtime_float();
 		$appid = (int) $_REQUEST['appid'];
 		$Model = new MongoModel('AppInfo');
 		$app = $Model->where(array('appid'=>$appid))->find();
@@ -128,18 +130,46 @@ class InterfaceAction extends Action {
 			}
 
 			// 更新需要更新的数据 (未来加上异常处理，日志记录。当前尚无)
+			$logInfo = array(); //运行日志
 			$tradeStatus = $moreStatus = false;
-			if( $tradeFlush )
+			if( $tradeFlush ) {
 				$tradeStatus = $user->updateTradeInfo( $ti ,$select );
-			if( $moreFlush )
+				if( ! $tradeStatus )
+					$logInfo['tradeStatus'] = '商业信息更新失败';
+			}
+			if( $moreFlush ) {
 				$moreStatus = $user->updateMoreInfo( $mi ,$select );
+				if( ! $moreStatus )
+					$logInfo['moreStatus'] = '个人联系信息更新失败';
+			}
 
 			// 更新用户“信息同步任务”
-			if( $syncInfo )
+			if( $syncInfo ) {
 				$syncStatus = $sync->syncToApps( (int)$this->user['uid'], $this->appid, $syncInfo );
-			
-			
+				if( ! $syncStatus ) {
+					$logInfo['syncStatus'] = '任务分发失败';
+				}
+			}
+
+			// (商业信息、联系人信息、任务分发)若有一项操作失败，记录进程日志系统
+			if( ($tradeFlush && !$tradeStatus) || ($moreFlush && !$moreStatus) || ( ! $syncStatus ) ) {
+				$data = array(
+					'rid'		=> mt_rand(900,1222),	// 自增序列
+					'prid'		=> mt_rand(2000,99999), // posix_getpid(), //linux系统下才能使用posix
+					'proname'	=> 'listener::updateInfo',
+					'starttime' => $this->startime,
+					'endtime'	=> microtime_float(),
+					'status'	=> 1,
+					'opcode'	=> json_encode($syncInfo),
+					'extinfo'	=> json_encode( array_merge($logInfo,array('memory usage:'=>memory_get_usage(true)) )), );
+
+				$user->recordProcessLog($data);
+			}
+			//程序运行到此处，均显示成功状态。
+			echo json_encode( array('status'=>2,'desc'=>'更新成功') );
 		}
 		echo json_encode($this->ret);
 	}
+
+
 }

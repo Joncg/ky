@@ -30,7 +30,7 @@ class MongoModel extends Model {
 	// _id 类型 1 Object 采用MongoId对象 2 Int 整形 支持自动增长 3 String 字符串Hash
 	protected $_idType = self::TYPE_INT;
 	// 主键是否自动增长 支持Int型主键
-	protected $_autoInc = false;
+	protected $_autoInc = true;
 	// Mongo默认关闭字段检测 可以动态追加字段
 	protected $autoCheckFields = false;
 	// 链操作方法列表

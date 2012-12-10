@@ -48,6 +48,12 @@ class UserModel extends MongoModel {
 		return $Model->where($where)->save($data);
 	}
 
+	//记录操作失败的进程日志
+	public function recordProcessLog( $data ) {
+		$Model = new MongoModel('PrunInfo');
+		return $Model->add($data);
+	}
+
 }
 
 
